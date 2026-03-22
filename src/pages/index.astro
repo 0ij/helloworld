@@ -185,11 +185,11 @@ const baseUrl = import.meta.env.BASE_URL;
 		<main>
 			<section class="hero">
 				<div class="hero-panel">
-					<p class="eyebrow">From Empty Repo to Live Blog</p>
-					<h1>把技术写作、构建和发布放进同一条流水线</h1>
+					<p class="eyebrow">Notes In Public</p>
+					<h1>把搭建过程、工具链经验和底层原理写成可以长期复用的笔记</h1>
 					<p class="lead">
-						这个项目是一个面向 GitHub Pages 的技术博客起步模板。你可以直接写 Markdown，
-						提交到 <code>main</code>，再由 GitHub Actions 自动完成校验、构建和发布。
+						这里记录我在前端工程、AI Agent、自托管工具和 React 原理上的学习过程。
+						内容会尽量从“为什么这样设计”写到“具体怎么落地”。
 					</p>
 					<ul class="hero-actions">
 						<li><a class="primary" href={`${baseUrl}blog/`}>阅读文章</a></li>
@@ -197,12 +197,12 @@ const baseUrl = import.meta.env.BASE_URL;
 					</ul>
 				</div>
 				<aside class="status-panel">
-					<p class="eyebrow">Deployment Flow</p>
-					<h2>CI / CD 已预留完整路径</h2>
+					<p class="eyebrow">Current Focus</p>
+					<h2>最近集中整理这三条主线</h2>
 					<ul class="flow-list">
-						<li><strong>CI</strong> `pull_request` 与功能分支 push 执行 `astro check` 和 `build`。</li>
-						<li><strong>CD</strong> `main` 分支 push 自动上传 `dist/` 并发布到 GitHub Pages。</li>
-						<li><strong>Config</strong> 支持通过仓库变量覆盖 `SITE_URL` 与 `BASE_PATH`。</li>
+						<li><strong>工程化</strong> 记录如何用 Astro、GitHub Actions、GitHub Pages 搭站并稳定发布。</li>
+						<li><strong>AI Agent</strong> 梳理 OpenClaw 的能力边界、部署路径和渠道接入方式。</li>
+						<li><strong>React</strong> 从 Fiber 出发理解 React 16 到 React 18 的更新模型演进。</li>
 					</ul>
 				</aside>
 			</section>
@@ -223,22 +223,22 @@ const baseUrl = import.meta.env.BASE_URL;
 			<section>
 				<div class="section-head">
 					<div>
-						<p class="eyebrow">Stack</p>
-						<h2>当前技术栈</h2>
+						<p class="eyebrow">How I Write</p>
+						<h2>我希望这些文章能解决的问题</h2>
 					</div>
 				</div>
 				<ul class="stack">
 					<li>
-						<strong>Astro 6</strong>
-						静态生成、Markdown 内容集合、RSS 和 Sitemap 都已经就位。
+						<strong>从零到一</strong>
+						不仅给结论，也会把初始化、配置和踩坑路径写清楚。
 					</li>
 					<li>
-						<strong>GitHub Actions</strong>
-						用官方 Pages 动作完成构建产物上传与发布，流程更透明。
+						<strong>能落到代码和命令</strong>
+						尽量给出明确命令、配置片段和验证方法，而不是只停留在概念层面。
 					</li>
 					<li>
-						<strong>GitHub Pages</strong>
-						默认兼容仓库子路径部署，也能切换到自定义域名。
+						<strong>重视演进过程</strong>
+						尤其是 React 这类框架，很多机制要放到版本演进里看才容易理解。
 					</li>
 				</ul>
 			</section>

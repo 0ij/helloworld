@@ -61,7 +61,7 @@ const posts = (await getCollection('blog'))
 			<section class="hero">
 				<p>Blog Archive</p>
 				<h1>文章列表</h1>
-				<p>所有文章都来自 <code>src/content/blog/</code>，适合直接用 Markdown 持续迭代。</p>
+				<p>当前文章主要覆盖建站、AI Agent 自托管、前端底层原理三类主题，后续会继续按专题扩展。</p>
 			</section>
 			<ul class="grid">
 				{posts.map((post, index) => <li><PostCard post={post} featured={index === 0} /></li>)}

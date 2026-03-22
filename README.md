@@ -69,3 +69,24 @@ draft: false # 可选，true 时不会出现在站点和 RSS
 - `src/consts.ts` 中的 `SITE_AUTHOR`
 - `src/consts.ts` 中的 `SITE_GITHUB_URL`
 - `src/consts.ts` 中的 `SITE_EMAIL`
+
+## 钉钉写博客自动化
+
+仓库里已经补了一个后端骨架，路径是 `functions/dingtalk-blog/`，用于接收钉钉消息并调用 DeepSeek 生成博客。
+
+建议链路：
+
+1. 钉钉把消息回调到阿里云函数的 HTTP Trigger。
+2. 函数把日常聊天素材写入 GitHub 的草稿分支 `ai-notes`。
+3. 你发送 `/publish` 指令时，函数调用 DeepSeek 生成文章。
+4. 函数把 Markdown 写入 `src/content/blog/`。
+5. `main` 分支更新后，GitHub Pages 自动发布。
+
+快速开始：
+
+```bash
+cp .env.example .env
+npm run function:dev
+```
+
+详细说明见 `functions/dingtalk-blog/README.md`。
