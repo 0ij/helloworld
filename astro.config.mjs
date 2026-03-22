@@ -18,13 +18,19 @@ const normalizeBase = (value) => {
 		return '/';
 	}
 
-	return `/${value.replace(/^\/+|\/+$/g, '')}`;
+	return `/${value.replace(/^\/+|\/+$/g, '')}/`;
 };
 
-const base = envBase ? normalizeBase(envBase) : repo && !isUserOrOrgSite ? `/${repo}` : '/';
-const site =
+/** @param {string} value */
+const normalizeSite = (value) => (value.endsWith('/') ? value : `${value}/`);
+
+const base = envBase ? normalizeBase(envBase) : repo && !isUserOrOrgSite ? `/${repo}/` : '/';
+const site = normalizeSite(
 	envSite ||
-	(owner && repo ? `https://${owner}.github.io${isUserOrOrgSite ? '' : base}` : 'https://example.github.io');
+		(owner && repo
+			? `https://${owner}.github.io${isUserOrOrgSite ? '/' : base}`
+			: 'https://example.github.io/'),
+);
 
 export default defineConfig({
 	site,
