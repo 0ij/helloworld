@@ -23,7 +23,7 @@ const normalizeBase = (value) => {
 
 const base = envBase ? normalizeBase(envBase) : repo && !isUserOrOrgSite ? `/${repo}` : '/';
 const site =
-	envSite ??
+	envSite ||
 	(owner && repo ? `https://${owner}.github.io${isUserOrOrgSite ? '' : base}` : 'https://example.github.io');
 
 export default defineConfig({
