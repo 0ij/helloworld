@@ -1,0 +1,94 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_AUTHOR, SITE_DESCRIPTION, SITE_EMAIL, SITE_GITHUB_URL } from '../consts';
+---
+
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<BaseHead title="关于" description={SITE_DESCRIPTION} />
+		<style>
+			main {
+				display: grid;
+				grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+				gap: 1rem;
+			}
+
+			.panel {
+				padding: 1.8rem;
+				border-radius: 30px;
+				border: 1px solid rgba(45, 73, 88, 0.1);
+				background: rgba(255, 255, 255, 0.84);
+				box-shadow: 0 18px 48px rgba(45, 73, 88, 0.08);
+			}
+
+			.panel h1,
+			.panel h2,
+			.panel p {
+				margin-top: 0;
+			}
+
+			.panel h2 {
+				margin-bottom: 0.75rem;
+				font-size: 1.2rem;
+			}
+
+			.panel p:last-child {
+				margin-bottom: 0;
+			}
+
+			.list {
+				padding-left: 1.2rem;
+				margin-bottom: 0;
+			}
+
+			.contact {
+				display: grid;
+				gap: 0.8rem;
+			}
+
+			.contact a {
+				text-decoration: none;
+			}
+
+			@media (max-width: 920px) {
+				main {
+					grid-template-columns: 1fr;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class="panel">
+				<h1>关于这个博客</h1>
+				<p>
+					这是一个偏工程化的技术博客模板，目标不是做复杂 CMS，而是把写作、
+					构建和发布流程收拢到 GitHub 内部，保持低维护成本。
+				</p>
+				<p>
+					内容采用 Markdown / MDX，站点由 Astro 静态生成，GitHub Actions 负责校验与发布，
+					最终托管在 GitHub Pages。
+				</p>
+				<h2>适合的使用方式</h2>
+				<ul class="list">
+					<li>记录项目复盘、架构设计、调试过程和工具链实践。</li>
+					<li>把每篇文章当成一次可追溯提交，配合 PR 做内容审阅。</li>
+					<li>在不引入额外平台的前提下，快速获得 RSS、Sitemap 和 SEO 元信息。</li>
+				</ul>
+			</section>
+			<aside class="panel">
+				<h2>站点维护者</h2>
+				<p>{SITE_AUTHOR}</p>
+				<div class="contact">
+					<a href={SITE_GITHUB_URL} target="_blank" rel="noreferrer">GitHub 仓库</a>
+					<a href={`mailto:${SITE_EMAIL}`}>{SITE_EMAIL}</a>
+				</div>
+			</aside>
+		</main>
+		<Footer />
+	</body>
+</html>

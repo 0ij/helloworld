@@ -1,0 +1,102 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import FormattedDate from './FormattedDate.astro';
+
+interface Props {
+	post: CollectionEntry<'blog'>;
+	featured?: boolean;
+}
+
+const { post, featured = false } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL;
+---
+
+<article class:list={['post-card', { featured }]}>
+	<p class="post-date">
+		<FormattedDate date={post.data.pubDate} />
+	</p>
+	<h3>
+		<a href={`${baseUrl}blog/${post.id}/`}>{post.data.title}</a>
+	</h3>
+	<p class="description">{post.data.description}</p>
+	{
+		post.data.tags.length > 0 && (
+			<ul class="tags" aria-label="文章标签">
+				{post.data.tags.map((tag) => <li>{tag}</li>)}
+			</ul>
+		)
+	}
+</article>
+
+<style>
+	.post-card {
+		height: 100%;
+		padding: 1.5rem;
+		border: 1px solid rgba(45, 73, 88, 0.12);
+		border-radius: 24px;
+		background:
+			linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(247, 241, 232, 0.92)),
+			rgba(255, 255, 255, 0.95);
+		box-shadow: 0 18px 40px rgba(45, 73, 88, 0.08);
+		transition:
+			transform 200ms ease,
+			box-shadow 200ms ease,
+			border-color 200ms ease;
+	}
+
+	.post-card:hover {
+		transform: translateY(-4px);
+		border-color: rgba(38, 116, 108, 0.3);
+		box-shadow: 0 22px 48px rgba(45, 73, 88, 0.12);
+	}
+
+	.post-card.featured {
+		background:
+			radial-gradient(circle at top right, rgba(38, 116, 108, 0.14), transparent 32%),
+			linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(250, 244, 235, 0.94));
+	}
+
+	.post-date,
+	h3,
+	.description,
+	.tags {
+		margin: 0;
+	}
+
+	.post-date {
+		font-size: 0.92rem;
+		color: rgb(var(--muted));
+	}
+
+	h3 {
+		margin-top: 0.8rem;
+		font-size: 1.5rem;
+	}
+
+	h3 a {
+		color: rgb(var(--ink));
+		text-decoration: none;
+	}
+
+	.description {
+		margin-top: 0.9rem;
+		color: rgb(var(--muted-strong));
+	}
+
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.55rem;
+		margin-top: 1rem;
+		padding: 0;
+		list-style: none;
+	}
+
+	.tags li {
+		padding: 0.3rem 0.65rem;
+		border-radius: 999px;
+		background: rgba(38, 116, 108, 0.08);
+		color: var(--accent-strong);
+		font-size: 0.88rem;
+	}
+</style>

@@ -1,0 +1,76 @@
+---
+import { SITE_AUTHOR, SITE_EMAIL, SITE_GITHUB_URL, SITE_TITLE } from '../consts';
+
+const today = new Date();
+---
+
+<footer>
+	<div class="footer-grid">
+		<div>
+			<p class="label">Built for GitHub Pages</p>
+			<p class="title">{SITE_TITLE}</p>
+			<p class="meta">&copy; {today.getFullYear()} {SITE_AUTHOR}</p>
+		</div>
+		<div class="links">
+			<a href={SITE_GITHUB_URL} target="_blank" rel="noreferrer">仓库</a>
+			<a href={`mailto:${SITE_EMAIL}`}>邮箱</a>
+		</div>
+	</div>
+</footer>
+
+<style>
+	footer {
+		padding: 2rem 1.2rem 4rem;
+		color: rgb(var(--muted));
+	}
+
+	.footer-grid {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		max-width: 1120px;
+		margin: 0 auto;
+		padding-top: 1.5rem;
+		border-top: 1px solid rgba(45, 73, 88, 0.14);
+	}
+
+	.label,
+	.title,
+	.meta {
+		margin: 0;
+	}
+
+	.label {
+		font-size: 0.78rem;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+	}
+
+	.title {
+		margin-top: 0.35rem;
+		color: rgb(var(--ink));
+		font-size: 1.1rem;
+	}
+
+	.meta {
+		margin-top: 0.3rem;
+	}
+
+	.links {
+		display: flex;
+		gap: 1rem;
+	}
+
+	.links a {
+		text-decoration: none;
+		color: rgb(var(--ink));
+	}
+
+	@media (max-width: 640px) {
+		.footer-grid {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+	}
+</style>

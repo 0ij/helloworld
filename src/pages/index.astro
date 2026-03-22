@@ -1,0 +1,248 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import PostCard from '../components/PostCard.astro';
+import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+const posts = (await getCollection('blog'))
+	.filter(({ data }) => !data.draft)
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const latestPosts = posts.slice(0, 3);
+const baseUrl = import.meta.env.BASE_URL;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			.hero {
+				display: grid;
+				grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.9fr);
+				gap: 1.2rem;
+				align-items: stretch;
+			}
+
+			.hero-panel,
+			.status-panel {
+				padding: clamp(1.4rem, 4vw, 2rem);
+				border-radius: 32px;
+				border: 1px solid rgba(45, 73, 88, 0.12);
+				background: rgba(255, 252, 247, 0.88);
+				box-shadow: 0 24px 56px rgba(45, 73, 88, 0.1);
+				animation: rise 600ms ease both;
+			}
+
+			.hero-panel {
+				background:
+					radial-gradient(circle at top right, rgba(38, 116, 108, 0.16), transparent 30%),
+					linear-gradient(180deg, rgba(255, 253, 249, 0.94), rgba(248, 241, 231, 0.96));
+			}
+
+			.eyebrow {
+				margin: 0;
+				font-size: 0.8rem;
+				letter-spacing: 0.14em;
+				text-transform: uppercase;
+				color: var(--accent-strong);
+			}
+
+			h1 {
+				max-width: 12ch;
+				margin-top: 0.8rem;
+				margin-bottom: 1rem;
+			}
+
+			.lead {
+				max-width: 60ch;
+				font-size: 1.08rem;
+				color: rgb(var(--muted-strong));
+			}
+
+			.hero-actions,
+			.stack,
+			.post-grid,
+			.flow-list {
+				padding: 0;
+				list-style: none;
+			}
+
+			.hero-actions {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.9rem;
+				margin-top: 1.6rem;
+			}
+
+			.hero-actions a {
+				display: inline-flex;
+				align-items: center;
+				padding: 0.8rem 1.15rem;
+				border-radius: 999px;
+				text-decoration: none;
+				font-weight: 600;
+			}
+
+			.hero-actions .primary {
+				background: linear-gradient(135deg, var(--accent), #1f8a81);
+				color: white;
+			}
+
+			.hero-actions .secondary {
+				background: rgba(38, 116, 108, 0.08);
+				color: var(--accent-strong);
+			}
+
+			.section-head {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 1rem;
+				margin-top: 4rem;
+				margin-bottom: 1.2rem;
+			}
+
+			.section-head h2,
+			.section-head p {
+				margin: 0;
+			}
+
+			.post-grid {
+				display: grid;
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+				gap: 1rem;
+			}
+
+			.stack {
+				display: grid;
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+				gap: 1rem;
+				margin-top: 1.25rem;
+			}
+
+			.stack li,
+			.flow-list li {
+				padding: 1.1rem 1.2rem;
+				border-radius: 24px;
+				border: 1px solid rgba(45, 73, 88, 0.1);
+				background: rgba(255, 255, 255, 0.68);
+			}
+
+			.stack strong,
+			.flow-list strong {
+				display: block;
+				margin-bottom: 0.45rem;
+				color: rgb(var(--ink));
+			}
+
+			.status-panel h2,
+			.status-panel p {
+				margin: 0;
+			}
+
+			.status-panel h2 {
+				margin-top: 0.35rem;
+			}
+
+			.flow-list {
+				display: grid;
+				gap: 0.8rem;
+				margin-top: 1rem;
+			}
+
+			@keyframes rise {
+				from {
+					opacity: 0;
+					transform: translateY(12px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				.hero-panel,
+				.status-panel {
+					animation: none;
+				}
+			}
+
+			@media (max-width: 920px) {
+				.hero,
+				.post-grid,
+				.stack {
+					grid-template-columns: 1fr;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class="hero">
+				<div class="hero-panel">
+					<p class="eyebrow">From Empty Repo to Live Blog</p>
+					<h1>把技术写作、构建和发布放进同一条流水线</h1>
+					<p class="lead">
+						这个项目是一个面向 GitHub Pages 的技术博客起步模板。你可以直接写 Markdown，
+						提交到 <code>main</code>，再由 GitHub Actions 自动完成校验、构建和发布。
+					</p>
+					<ul class="hero-actions">
+						<li><a class="primary" href={`${baseUrl}blog/`}>阅读文章</a></li>
+						<li><a class="secondary" href={`${baseUrl}about/`}>查看站点说明</a></li>
+					</ul>
+				</div>
+				<aside class="status-panel">
+					<p class="eyebrow">Deployment Flow</p>
+					<h2>CI / CD 已预留完整路径</h2>
+					<ul class="flow-list">
+						<li><strong>CI</strong> `pull_request` 与功能分支 push 执行 `astro check` 和 `build`。</li>
+						<li><strong>CD</strong> `main` 分支 push 自动上传 `dist/` 并发布到 GitHub Pages。</li>
+						<li><strong>Config</strong> 支持通过仓库变量覆盖 `SITE_URL` 与 `BASE_PATH`。</li>
+					</ul>
+				</aside>
+			</section>
+
+			<section>
+				<div class="section-head">
+					<div>
+						<p class="eyebrow">Latest Posts</p>
+						<h2>最近更新</h2>
+					</div>
+					<a href={`${baseUrl}blog/`}>查看全部</a>
+				</div>
+				<ul class="post-grid">
+					{latestPosts.map((post, index) => <li><PostCard post={post} featured={index === 0} /></li>)}
+				</ul>
+			</section>
+
+			<section>
+				<div class="section-head">
+					<div>
+						<p class="eyebrow">Stack</p>
+						<h2>当前技术栈</h2>
+					</div>
+				</div>
+				<ul class="stack">
+					<li>
+						<strong>Astro 6</strong>
+						静态生成、Markdown 内容集合、RSS 和 Sitemap 都已经就位。
+					</li>
+					<li>
+						<strong>GitHub Actions</strong>
+						用官方 Pages 动作完成构建产物上传与发布，流程更透明。
+					</li>
+					<li>
+						<strong>GitHub Pages</strong>
+						默认兼容仓库子路径部署，也能切换到自定义域名。
+					</li>
+				</ul>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>

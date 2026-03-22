@@ -1,0 +1,117 @@
+---
+import { SITE_GITHUB_URL, SITE_TITLE } from '../consts';
+import HeaderLink from './HeaderLink.astro';
+
+const baseUrl = import.meta.env.BASE_URL;
+---
+
+<header>
+	<nav>
+		<div class="brand">
+			<p class="eyebrow">Engineering Blog</p>
+			<h2><a href={baseUrl}>{SITE_TITLE}</a></h2>
+		</div>
+		<div class="internal-links">
+			<HeaderLink href={baseUrl}>首页</HeaderLink>
+			<HeaderLink href={`${baseUrl}blog/`}>文章</HeaderLink>
+			<HeaderLink href={`${baseUrl}about/`}>关于</HeaderLink>
+		</div>
+		<div class="actions">
+			<a href={`${baseUrl}rss.xml`} class="action-link">RSS</a>
+			<a href={SITE_GITHUB_URL} class="action-link" target="_blank" rel="noreferrer">GitHub</a>
+		</div>
+	</nav>
+</header>
+
+<style>
+	header {
+		position: sticky;
+		top: 0;
+		z-index: 10;
+		padding: 1rem 1.25rem;
+		backdrop-filter: blur(16px);
+		background: rgba(255, 250, 244, 0.84);
+		border-bottom: 1px solid rgba(45, 73, 88, 0.12);
+	}
+
+	nav {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		max-width: 1120px;
+		margin: 0 auto;
+	}
+
+	.brand {
+		display: grid;
+		gap: 0.1rem;
+	}
+
+	.eyebrow {
+		margin: 0;
+		font-size: 0.72rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: rgb(var(--muted));
+	}
+
+	h2 {
+		margin: 0;
+		font-size: 1.1rem;
+	}
+
+	h2 a,
+	h2 a.active {
+		text-decoration: none;
+		color: rgb(var(--ink));
+	}
+
+	.internal-links,
+	.actions {
+		display: flex;
+		align-items: center;
+		gap: 0.8rem;
+	}
+
+	nav a {
+		padding: 0.5rem 0;
+		color: rgb(var(--ink));
+		text-decoration: none;
+	}
+
+	.action-link {
+		padding: 0.55rem 0.9rem;
+		border-radius: 999px;
+		background: rgba(38, 116, 108, 0.08);
+		transition:
+			transform 180ms ease,
+			background 180ms ease;
+	}
+
+	.action-link:hover {
+		transform: translateY(-1px);
+		background: rgba(38, 116, 108, 0.14);
+	}
+
+	@media (max-width: 820px) {
+		nav {
+			flex-wrap: wrap;
+		}
+
+		.actions {
+			width: 100%;
+		}
+	}
+
+	@media (max-width: 560px) {
+		header {
+			padding: 0.9rem 1rem;
+		}
+
+		.internal-links,
+		.actions {
+			flex-wrap: wrap;
+		}
+	}
+</style>

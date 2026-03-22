@@ -1,0 +1,94 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+
+type Props = CollectionEntry<'blog'>['data'];
+
+const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+---
+
+<html lang="zh-CN">
+	<head>
+		<BaseHead title={title} description={description} />
+		<style>
+			main {
+				width: min(860px, calc(100% - 2rem));
+				margin: 0 auto;
+				padding-top: 2rem;
+			}
+
+			.hero-image {
+				margin-bottom: 2rem;
+			}
+
+			.hero-image img {
+				width: 100%;
+				border-radius: 28px;
+				box-shadow: 0 28px 60px rgba(45, 73, 88, 0.16);
+			}
+
+			.prose {
+				padding: 2rem clamp(1.2rem, 4vw, 2.5rem);
+				border-radius: 32px;
+				background: rgba(255, 255, 255, 0.84);
+				border: 1px solid rgba(45, 73, 88, 0.1);
+				box-shadow: 0 20px 50px rgba(45, 73, 88, 0.08);
+				color: rgb(var(--muted-strong));
+			}
+
+			.title {
+				margin-bottom: 2rem;
+				padding-bottom: 1.5rem;
+				line-height: 1.1;
+				border-bottom: 1px solid rgba(45, 73, 88, 0.1);
+			}
+
+			.title h1 {
+				margin: 0.5rem 0 0;
+			}
+
+			.date {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.75rem;
+				align-items: center;
+				color: rgb(var(--muted));
+			}
+
+			.last-updated-on {
+				padding-left: 0.75rem;
+				border-left: 1px solid rgba(45, 73, 88, 0.16);
+			}
+		</style>
+	</head>
+
+	<body>
+		<Header />
+		<main>
+			<article>
+				<div class="hero-image">
+					{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
+				</div>
+				<div class="prose">
+					<div class="title">
+						<div class="date">
+							<FormattedDate date={pubDate} />
+							{
+								updatedDate && (
+									<div class="last-updated-on">更新于 <FormattedDate date={updatedDate} /></div>
+								)
+							}
+						</div>
+						<h1>{title}</h1>
+					</div>
+					<slot />
+				</div>
+			</article>
+		</main>
+		<Footer />
+	</body>
+</html>
