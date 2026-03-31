@@ -20,6 +20,10 @@ npm run dev
 
 文章放在 `src/content/blog/` 下，使用 Markdown 或 MDX 均可。
 
+写作风格和结构约定见：
+
+- `docs/writing-style-guide.md`
+
 当前 frontmatter 支持：
 
 ```yaml
