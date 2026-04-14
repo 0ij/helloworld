@@ -3,14 +3,19 @@ import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import PostCard from '../components/PostCard.astro';
+import ThoughtCard from '../components/ThoughtCard.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 const posts = (await getCollection('blog'))
 	.filter(({ data }) => !data.draft)
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const thoughts = (await getCollection('thoughts'))
+	.filter(({ data }) => !data.draft)
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const latestPosts = posts.slice(0, 3);
+const latestThoughts = thoughts.slice(0, 2);
 const baseUrl = import.meta.env.BASE_URL;
 ---
 
@@ -218,6 +223,30 @@ const baseUrl = import.meta.env.BASE_URL;
 				<ul class="post-grid">
 					{latestPosts.map((post, index) => <li><PostCard post={post} featured={index === 0} /></li>)}
 				</ul>
+			</section>
+
+			<section>
+				<div class="section-head">
+					<div>
+						<p class="eyebrow">Thinking Track</p>
+						<h2>思考栏目</h2>
+					</div>
+					<a href={`${baseUrl}thoughts/`}>查看栏目</a>
+				</div>
+				{
+					latestThoughts.length > 0 ? (
+						<ul class="post-grid">
+							{latestThoughts.map((thought, index) => <li><ThoughtCard thought={thought} featured={index === 0} /></li>)}
+						</ul>
+					) : (
+						<ul class="stack">
+							<li>
+								<strong>独立栏目已开出</strong>
+								后续可以在 <code>src/content/thoughts/</code> 下新增内容，用来记录随笔以外的判断、方法和观察。
+							</li>
+						</ul>
+					)
+				}
 			</section>
 
 			<section>

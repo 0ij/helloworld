@@ -1,0 +1,88 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import ThoughtCard from '../../components/ThoughtCard.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+
+const thoughts = (await getCollection('thoughts'))
+	.filter(({ data }) => !data.draft)
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<BaseHead title={`思考 - ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+		<style>
+			main {
+				width: min(1120px, calc(100% - 2rem));
+			}
+
+			.hero {
+				margin-bottom: 2rem;
+				padding: 1.8rem;
+				border-radius: 32px;
+				background:
+					radial-gradient(circle at top right, rgba(122, 108, 59, 0.16), transparent 28%),
+					rgba(255, 252, 247, 0.9);
+				border: 1px solid rgba(45, 73, 88, 0.12);
+				box-shadow: 0 24px 56px rgba(45, 73, 88, 0.09);
+			}
+
+			.hero p,
+			.hero h1 {
+				margin: 0;
+			}
+
+			.hero p {
+				color: rgb(var(--muted));
+			}
+
+			.grid {
+				display: grid;
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+				gap: 1rem;
+				padding: 0;
+				list-style: none;
+			}
+
+			.empty {
+				padding: 1.5rem;
+				border-radius: 24px;
+				border: 1px solid rgba(45, 73, 88, 0.1);
+				background: rgba(255, 255, 255, 0.82);
+				color: rgb(var(--muted-strong));
+			}
+
+			@media (max-width: 920px) {
+				.grid {
+					grid-template-columns: 1fr;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class="hero">
+				<p>Thoughts</p>
+				<h1>思考</h1>
+				<p>这里单独记录偏判断、方法和观察类的内容，不和随笔式文章混在一起。</p>
+			</section>
+			{
+				thoughts.length > 0 ? (
+					<ul class="grid">
+						{thoughts.map((thought, index) => <li><ThoughtCard thought={thought} featured={index === 0} /></li>)}
+					</ul>
+				) : (
+					<section class="empty">
+						这个栏目已经开出结构，后续可以直接在 <code>src/content/thoughts/</code> 下新增内容。
+					</section>
+				)
+			}
+		</main>
+		<Footer />
+	</body>
+</html>
